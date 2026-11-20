@@ -1,0 +1,605 @@
+/* =========================================================
+   CPIT 405 – Lab 5: Interactive CV of Ghala Alsulami
+   Concept: "graph paper observatory" + Dark Mode, Dynamic DOM
+   Projects, Category Filters, and Clean Print Layout
+   ========================================================= */
+
+:root {
+    --ink: #1b2340;          /* dark navy text */
+    --paper: #f3f6fa;        /* cool paper background */
+    --surface: #ffffff;      /* card surface */
+    --muted: #47526f;        /* secondary text */
+    --grid: #dde5ef;         /* graph paper lines */
+    --plot: #3157d5;         /* main plot blue */
+    --teal: #13a59b;         /* second data series */
+    --amber: #f0b13a;        /* highlight for key numbers */
+    --header-bg: #1b2340;    /* header background */
+}
+
+/* ---------- TASK 1: DARK MODE THEME VARIABLES ---------- */
+body.dark-mode {
+    --ink: #edf2ff;
+    --paper: #0f1526;
+    --surface: #182138;
+    --muted: #b3bfd9;
+    --grid: #1e2947;
+    --plot: #6c8eff;
+    --teal: #2dd4bf;
+    --amber: #fbbf24;
+    --header-bg: #090d18;
+}
+
+/* ---------- ELEMENT SELECTORS ---------- */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink);
+    background-color: var(--paper);
+    background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 28px 28px;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+h1, h2, h3 {
+    font-family: "Bricolage Grotesque", "Segoe UI", sans-serif;
+    line-height: 1.15;
+}
+
+h2 {
+    display: inline-block;
+    font-size: 1.9rem;
+    font-weight: 800;
+    margin: 0 0 18px;
+    padding: 0 6px;
+    background: linear-gradient(transparent 58%, rgba(240, 177, 58, 0.45) 58%);
+}
+
+h3 {
+    font-size: 1.2rem;
+    margin: 18px 0 6px;
+}
+
+p {
+    margin: 0 0 10px;
+}
+
+a {
+    color: var(--plot);
+    font-weight: 500;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+a:hover {
+    color: var(--teal);
+}
+
+a:focus-visible,
+button:focus-visible {
+    outline: 3px solid var(--amber);
+    outline-offset: 3px;
+}
+
+footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+/* ---------- ID SELECTORS ---------- */
+#profile-header {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--header-bg);
+    color: white;
+    padding: 64px 24px 170px;
+    text-align: left;
+}
+
+#profile-header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 130px;
+    background-image:
+        linear-gradient(var(--plot), var(--plot)),
+        linear-gradient(var(--teal), var(--teal)),
+        linear-gradient(var(--plot), var(--plot)),
+        linear-gradient(var(--teal), var(--teal)),
+        linear-gradient(var(--plot), var(--plot)),
+        linear-gradient(var(--amber), var(--amber)),
+        linear-gradient(var(--plot), var(--plot)),
+        linear-gradient(var(--teal), var(--teal)),
+        linear-gradient(var(--plot), var(--plot)),
+        linear-gradient(var(--teal), var(--teal)),
+        linear-gradient(var(--plot), var(--plot)),
+        linear-gradient(var(--teal), var(--teal));
+    background-repeat: no-repeat;
+    background-size:
+        6% 30%, 6% 45%, 6% 38%, 6% 60%, 6% 52%, 6% 100%,
+        6% 70%, 6% 58%, 6% 80%, 6% 66%, 6% 88%, 6% 75%;
+    background-position:
+        2% 100%, 10.7% 100%, 19.4% 100%, 28.1% 100%, 36.8% 100%, 45.5% 100%,
+        54.2% 100%, 62.9% 100%, 71.6% 100%, 80.3% 100%, 89% 100%, 97.7% 100%;
+    transform-origin: bottom;
+    animation: grow-bars 1.2s ease-out both;
+}
+
+@keyframes grow-bars {
+    from { transform: scaleY(0); }
+    to   { transform: scaleY(1); }
+}
+
+/* ---------- HEADER LAYOUT & CONTROLS ---------- */
+.header-top {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+#profile-header h1 {
+    margin: 0;
+    font-size: clamp(2.8rem, 8vw, 5.2rem);
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 0.95;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 9px 16px;
+    border-radius: 4px;
+    border: 1.5px solid #c9d3ee;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.action-btn:hover {
+    background-color: white;
+    color: #1b2340;
+    border-color: white;
+}
+
+.action-btn-accent {
+    background-color: var(--amber);
+    border-color: var(--amber);
+    color: #1b2340;
+}
+
+.action-btn-accent:hover {
+    background-color: #ffd074;
+    border-color: #ffd074;
+    color: #1b2340;
+}
+
+#profile-header nav {
+    max-width: 900px;
+    margin: 28px auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 22px;
+}
+
+#profile-header nav a {
+    color: #c9d3ee;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 2px;
+}
+
+#profile-header nav a:hover {
+    color: white;
+    border-bottom-color: var(--amber);
+}
+
+.cv-section p {
+    max-width: 68ch;
+}
+
+/* ---------- CLASS SELECTORS ---------- */
+.job-title {
+    margin: 14px 0 0;
+    font-size: 1.25rem;
+    color: var(--amber);
+}
+
+.cv-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
+.cv-section {
+    margin-bottom: 56px;
+    scroll-margin-top: 20px;
+}
+
+/* ---------- TASK 2: SHOW MORE / SHOW LESS ---------- */
+.hidden {
+    display: none;
+}
+
+.secondary-btn {
+    margin-top: 8px;
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 600;
+    padding: 7px 16px;
+    background-color: var(--surface);
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.secondary-btn:hover {
+    background-color: var(--ink);
+    color: var(--paper);
+}
+
+/* Education and certifications */
+.education-item {
+    position: relative;
+    padding: 4px 0 4px 22px;
+    margin-bottom: 18px;
+    border-left: 3px solid var(--plot);
+}
+
+.education-item h3 {
+    margin-top: 0;
+}
+
+.education-item p {
+    margin: 2px 0;
+    color: var(--muted);
+}
+
+.gpa {
+    float: right;
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-size: 1rem;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1;
+}
+
+.gpa strong {
+    display: block;
+    font-size: 3.2rem;
+    color: var(--teal);
+}
+
+/* Skills */
+.skills-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skills-list li {
+    background-color: var(--surface);
+    border: 1.5px solid var(--ink);
+    padding: 5px 14px 5px 26px;
+    border-radius: 4px;
+    position: relative;
+    font-size: 0.95rem;
+}
+
+.skills-list li::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    margin-top: -4px;
+    border-radius: 50%;
+    background-color: var(--teal);
+}
+
+.skills-list li:hover {
+    background-color: var(--ink);
+    color: var(--paper);
+}
+
+/* ---------- TASK 3 & 4: FILTER BAR & DYNAMIC PROJECT CARDS ---------- */
+.filter-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+}
+
+.filter-btn {
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 600;
+    padding: 7px 18px;
+    background-color: var(--surface);
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.filter-btn:hover {
+    border-color: var(--plot);
+    color: var(--plot);
+}
+
+.filter-btn.active {
+    background-color: var(--plot);
+    border-color: var(--plot);
+    color: #ffffff;
+}
+
+#projects-container {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.project-card {
+    background-color: var(--surface);
+    border: 2px solid var(--ink);
+    padding: 28px;
+    box-shadow: 8px 8px 0 var(--plot);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.project-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 11px 11px 0 var(--teal);
+}
+
+.project-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.category-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background-color: var(--teal);
+    color: #0f1526;
+    border-radius: 3px;
+}
+
+.project-card h3 {
+    font-size: 1.6rem;
+    margin: 0 0 8px;
+}
+
+.project-date {
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.stat {
+    float: right;
+    width: 170px;
+    margin: 0 0 12px 20px;
+    padding: 12px;
+    background-color: var(--amber);
+    color: #1b2340;
+    font-size: 0.85rem;
+    line-height: 1.35;
+}
+
+.stat strong {
+    display: block;
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-size: 2.8rem;
+    line-height: 1;
+}
+
+.project-card .tech-list {
+    list-style: none;
+    padding: 0;
+    margin: 14px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.project-card .tech-list li {
+    margin: 0;
+    padding: 2px 10px;
+    background-color: var(--paper);
+    color: var(--plot);
+    border: 1px solid var(--grid);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.project-card > a {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 10px 20px;
+    background-color: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.project-card > a:hover {
+    background-color: var(--plot);
+    color: #ffffff;
+}
+
+/* Activities */
+.activity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.activity-list li {
+    padding: 12px 0;
+    border-bottom: 1px dashed #b7c3d6;
+}
+
+.activity-list strong {
+    display: block;
+}
+
+#contact p {
+    font-size: 1.1rem;
+}
+
+/* ---------- MEDIA QUERY (responsive design) ---------- */
+@media (max-width: 600px) {
+    body {
+        font-size: 16px;
+    }
+
+    #profile-header {
+        padding: 48px 20px 120px;
+    }
+
+    #profile-header::after {
+        height: 90px;
+    }
+
+    #profile-header nav {
+        gap: 4px 16px;
+    }
+
+    .gpa,
+    .stat {
+        float: none;
+        margin: 0 0 14px;
+        text-align: left;
+    }
+
+    .stat {
+        width: auto;
+    }
+
+    .project-card {
+        padding: 20px;
+        box-shadow: 5px 5px 0 var(--plot);
+    }
+
+    h2 {
+        font-size: 1.6rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #profile-header::after {
+        animation: none;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* ---------- TASK 5: PRINT STYLESHEET ---------- */
+@media print {
+    body,
+    body.dark-mode {
+        background: #ffffff !important;
+        color: #111111 !important;
+        font-size: 12pt;
+        line-height: 1.45;
+    }
+
+    /* Hide buttons, filters, and navigation when printing */
+    .no-print,
+    nav,
+    .header-actions,
+    .filter-bar,
+    #toggle-about-btn {
+        display: none !important;
+    }
+
+    /* Ensure hidden About Me details appear on the printed CV */
+    #about-more.hidden {
+        display: block !important;
+    }
+
+    #profile-header {
+        background: #ffffff !important;
+        color: #111111 !important;
+        padding: 0 0 16px !important;
+        border-bottom: 2px solid #111111;
+    }
+
+    #profile-header::after {
+        display: none !important;
+    }
+
+    .job-title {
+        color: #333333 !important;
+    }
+
+    .cv-container {
+        max-width: 100%;
+        padding: 16px 0;
+    }
+
+    .cv-section {
+        margin-bottom: 24px;
+        page-break-inside: avoid;
+    }
+
+    .project-card {
+        box-shadow: none !important;
+        border: 1px solid #999999;
+        padding: 16px;
+        page-break-inside: avoid;
+    }
+
+    .project-card > a {
+        background: none !important;
+        color: #1b2340 !important;
+        padding: 0;
+        text-decoration: underline;
+    }
+
+    a {
+        color: #111111 !important;
+    }
+}

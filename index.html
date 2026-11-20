@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghala Alsulami | CV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header id="profile-header">
+        <div class="header-top">
+            <div>
+                <h1>Ghala Alsulami</h1>
+                <p class="job-title">IT student and data analyst in the making</p>
+            </div>
+
+            <!-- Task 1 & Task 5 Controls -->
+            <div class="header-actions no-print">
+                <button id="theme-toggle" class="action-btn" type="button">Dark Mode</button>
+                <button id="print-btn" class="action-btn action-btn-accent" type="button">Print / Save as PDF</button>
+            </div>
+        </div>
+
+        <nav class="no-print">
+            <a href="#about">About</a>
+            <a href="#education">Education</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#certifications">Certifications</a>
+            <a href="#activities">Activities</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <main class="cv-container">
+
+        <!-- Task 2: Show More / Show Less -->
+        <section id="about" class="cv-section">
+            <h2>About Me</h2>
+            <p>
+                IT student at King Abdulaziz University who independently builds and deploys
+                real data systems. I designed and launched a fully automated pipeline that
+                collects, analyzes, and visualizes GitHub developer trends every day, combining
+                data engineering, statistical analysis, and interactive dashboards.
+            </p>
+            <div id="about-more" class="hidden">
+                <p>
+                    Beyond data pipelines, I enjoy solving algorithmic and object-oriented software
+                    challenges in Python and Java, translating raw metrics into clear visual stories,
+                    and collaborating on technical student initiatives.
+                </p>
+                <p>
+                    I'm looking for a data analyst co-op where I can apply this end-to-end
+                    thinking to real business problems.
+                </p>
+            </div>
+            <button id="toggle-about-btn" class="secondary-btn no-print" type="button">Show More</button>
+        </section>
+
+        <section id="education" class="cv-section">
+            <h2>Education</h2>
+
+            <article class="education-item">
+                <div class="gpa"><strong>4.9</strong> / 5.0 GPA</div>
+                <h3>King Abdulaziz University</h3>
+                <p>Bachelor of Information Technology</p>
+                <p>Jeddah, Saudi Arabia &nbsp;|&nbsp; 2023 to present</p>
+            </article>
+        </section>
+
+        <section id="skills" class="cv-section">
+            <h2>Skills</h2>
+
+            <h3>Programming languages</h3>
+            <ul class="skills-list">
+                <li>Python</li>
+                <li>SQL</li>
+                <li>Java</li>
+                <li>OOP</li>
+            </ul>
+
+            <h3>Libraries and frameworks</h3>
+            <ul class="skills-list">
+                <li>pandas</li>
+                <li>NumPy</li>
+                <li>Matplotlib</li>
+                <li>Plotly</li>
+                <li>Streamlit</li>
+                <li>BeautifulSoup</li>
+            </ul>
+
+            <h3>Tools and platforms</h3>
+            <ul class="skills-list">
+                <li>Jupyter Notebook</li>
+                <li>VS Code</li>
+                <li>Git</li>
+                <li>GitHub Actions</li>
+                <li>REST APIs</li>
+                <li>Excel</li>
+                <li>Power BI</li>
+            </ul>
+
+            <h3>Data and math</h3>
+            <ul class="skills-list">
+                <li>Data visualization</li>
+                <li>Statistical analysis</li>
+                <li>Data pipelines</li>
+                <li>Web scraping</li>
+                <li>Automation</li>
+                <li>Linear algebra</li>
+                <li>Calculus</li>
+                <li>Probability and statistics</li>
+            </ul>
+        </section>
+
+        <!-- Task 3 & Task 4: Dynamic Projects & Filtering -->
+        <section id="projects" class="cv-section">
+            <h2>Projects</h2>
+
+            <div class="filter-bar no-print">
+                <button class="filter-btn active" data-category="All" type="button">All</button>
+                <button class="filter-btn" data-category="Web" type="button">Web</button>
+                <button class="filter-btn" data-category="Programming" type="button">Programming</button>
+            </div>
+
+            <div id="projects-container"></div>
+        </section>
+
+        <section id="certifications" class="cv-section">
+            <h2>Certifications</h2>
+
+            <article class="education-item">
+                <h3>Mathematics for Machine Learning and Data Science</h3>
+                <p>DeepLearning.AI, Coursera &nbsp;|&nbsp; Dec 2025</p>
+                <p>Linear algebra, calculus, probability and statistics</p>
+            </article>
+
+            <article class="education-item">
+                <h3>Python for Data Science, AI and Development</h3>
+                <p>IBM, Coursera &nbsp;|&nbsp; Apr 2026</p>
+            </article>
+        </section>
+
+        <section id="activities" class="cv-section">
+            <h2>Leadership and Activities</h2>
+
+            <ul class="activity-list">
+                <li><strong>Vice Lead, Operations Department</strong> Manufacturing Club, 2024 to 2025</li>
+                <li><strong>2nd place winner</strong> Buslah Program</li>
+                <li><strong>Participant</strong> IEEE Xtreme Programming Competition</li>
+                <li><strong>Media and marketing member</strong> Google Developer Student Club (photography and content)</li>
+                <li><strong>Documentation and photography member</strong> Manufacturing Club</li>
+                <li><strong>Member</strong> College Sports Committee</li>
+            </ul>
+        </section>
+
+        <section id="contact" class="cv-section">
+            <h2>Contact</h2>
+
+            <p>
+                Email:
+                <a href="mailto:Ghalaalsulami@gmail.com">Ghalaalsulami@gmail.com</a>
+            </p>
+
+            <p>
+                GitHub:
+                <a href="https://github.com/GhalaAlsulami" target="_blank">github.com/GhalaAlsulami</a>
+            </p>
+
+            <p>
+                LinkedIn:
+                <a href="https://linkedin.com/in/ghala-alsulami" target="_blank">linkedin.com/in/ghala-alsulami</a>
+            </p>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>© 2026 Ghala Alsulami</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
